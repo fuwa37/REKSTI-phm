@@ -84,26 +84,25 @@ def getdatarm(idp, **kwargs):
         for rek in reks:
             return rek.to_dict()
     else:
+        reks=rekam_ref.document(kwargs['idrm']).get()
         if 'par' in kwargs:
-            if kwargs['par'] == 'Nama':
-                return reks.get("Nama")
-            elif kwargs['par'] == 'Email':
-                return reks.get("Email")
-            elif kwargs['par'] == 'Berat':
-                return reks.get("Berat")
-            elif kwargs['par'] == 'Tinggi':
-                return reks.get("Tinggi")
-            elif kwargs['par'] == 'Jenis Kelamin':
-                return reks.get("Jenis Kelamin")
-            elif kwargs['par'] == 'Golongan Darah':
-                return reks.get("Golongan Darah")
+            if kwargs['par'] == 'Gejala':
+                return reks.get("Gejala")
+            elif kwargs['par'] == 'Pengobatan':
+                return reks.get("Pengobatan")
+            elif kwargs['par'] == 'Penyakit':
+                return reks.get("Penyakit")
+            elif kwargs['par'] == 'Tindakan':
+                return reks.get("Tindakan")
+            elif kwargs['par'] == 'Waktu':
+                return reks.get("Waktu")
         else:
-            return rekam_ref.document(kwargs['idrm']).get().to_dict()
+            return reks.to_dict()
 
 
 for doc in docs:
     print(getdatapasien(doc.id))
-    print(getdatarm(doc.id))
+    print(getdatarm(doc.id,idrm='VWAzZAfqhK20FYFoibFB',par='Waktu'))
     # print(pasien_ref.document(doc.id).get().get("Tinggi"))
     # rekam_ref = pasien_ref.document(doc.id).collection(u'Rekam Medis')
     #rekam_ref.collection('Rekam Medis').add(rm)
