@@ -103,4 +103,8 @@ def hello():
     return jsonify(a)
 
 
+<<<<<<< HEAD
+ #app.run(host='0.0.0.0')
+=======
 app.run()
+>>>>>>> e377cce7c875cd5031ac920001c6db1eaeebd43c
