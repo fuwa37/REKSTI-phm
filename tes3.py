@@ -98,41 +98,6 @@ class PythonGmailAPI:
       encoded_message = {'raw': base64.urlsafe_b64encode(message.as_bytes())}
       return encoded_message
 
-    ''' SECTION NOT WORKING YET
-    def __create_message_with_attachment(self, sender, to, subject, message_text, file):
-      message = email.mime.multipart.MIMEMultipart()
-      message['to'] = to
-      message['from'] = sender
-      message['subject'] = subject
-      msg = email.mime.text.MIMEText(message_text)
-      message.attach(msg)
-      content_type, encoding = mimetypes.guess_type(file)
-      if content_type is None or encoding is not None:
-        content_type = 'application/octet-stream'
-      main_type, sub_type = content_type.split('/', 1)
-      if main_type == 'text':
-        fp = open(file, 'rb')
-        msg = email.mime.text.MIMEText(fp.read(), _subtype=sub_type)
-        fp.close()
-      elif main_type == 'image':
-        fp = open(file, 'rb')
-        msg = email.mime.image.MIMEImage(fp.read(), _subtype=sub_type)
-        fp.close()
-      elif main_type == 'audio':
-        fp = open(file, 'rb')
-        msg = email.mime.audio.MIMEAudio(fp.read(), _subtype=sub_type)
-        fp.close()
-      else:
-        fp = open(file, 'rb')
-        msg = email.mime.base.MIMEBase(main_type, sub_type)
-        msg.set_payload(fp.read())
-        fp.close()
-      filename = os.path.basename(file)
-      msg.add_header('Content-Disposition', 'attachment', filename=filename)
-      message.attach(msg)
-      return {'raw': base64.urlsafe_b64encode(message.as_string())}
-    '''
-
     def __send_message(self, service, user_id, message):
       """Send an email message.
       Args:
