@@ -11,7 +11,7 @@ storage_client = storage.Client.from_service_account_json('kunci.json')
 bucket = storage_client.get_bucket("rekstiphm.appspot.com")
 
 def upload_foto(idp):
-    blob = bucket.blob("foto_pasien/" + idp + '.jpg')
+    blob = bucket.blob("foto_pasien/"+ idp +"/" + str(datetime.datetime.now()) + '.jpg')
     blob.upload_from_filename(idp+".jpg")
 
 # idp: id pasien
