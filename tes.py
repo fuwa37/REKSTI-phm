@@ -4,6 +4,16 @@ from firebase_admin import firestore
 from flask import Flask, jsonify
 import datetime
 
+from google.cloud import storage
+
+# Instantiates a client
+storage_client = storage.Client.from_service_account_json('kunci.json')
+bucket = storage_client.get_bucket("rekstiphm.appspot.com")
+
+def upload_foto(idp):
+    blob = bucket.blob("foto_pasien/" + idp + '.jpg')
+    blob.upload_from_filename(idp+".jpg")
+
 # idp: id pasien
 # idrm: id rekam medis suatu pasien
 
@@ -103,8 +113,4 @@ def hello():
     return jsonify(a)
 
 
-<<<<<<< HEAD
- #app.run(host='0.0.0.0')
-=======
-app.run()
->>>>>>> e377cce7c875cd5031ac920001c6db1eaeebd43c
+# app.run(host='0.0.0.0')

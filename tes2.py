@@ -2,8 +2,7 @@
 from google.cloud import storage
 
 # Instantiates a client
-storage_client = storage.Client.from_service_account_json(
-'kunciimka.json')
+storage_client = storage.Client.from_service_account_json('kunciimka.json')
 
 bucket_name="imka-e61ac.appspot.com"
 
