@@ -1,14 +1,18 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-from flask import Flask, jsonify
 import datetime
 
 from google.cloud import storage
 
 # Instantiates a client
-storage_client = storage.Client.from_service_account_json('kunci.json')
+storage_client = storage.Client.from_service_account_json('REKSTI/kunci.json')
 bucket = storage_client.get_bucket("rekstiphm.appspot.com")
+cred = credentials.Certificate('REKSTI/kunci.json')
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
 
 def upload_foto(idp):
     blob = bucket.blob("foto_pasien/"+ idp +"/" + str(datetime.datetime.now()) + '.jpg')
@@ -95,22 +99,13 @@ def getdatarm(idp, **kwargs):
             return reks.to_dict()
 
 
-cred = credentials.Certificate('kunci.json')
-firebase_admin.initialize_app(cred)
-
-db = firestore.client()
-
 pasien_ref = db.collection(u'Pasien')
+antrian_ref = db.collection('Antrian')
 
-docs = pasien_ref.get()
+docs=antrian_ref.get()
 
-app = Flask(__name__)
+for doc in docs:
+    a=doc.to_dict()
 
+print(a.keys())
 
-@app.route('/')
-def hello():
-    a=getdatapasien("Bxx6ygvQsIdsQkOp1eVF")
-    return jsonify(a)
-
-
-# app.run(host='0.0.0.0')

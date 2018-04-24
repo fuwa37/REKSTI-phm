@@ -44,7 +44,8 @@ SCOPES = ['https://mail.google.com/',
           'https://www.googleapis.com/auth/gmail.modify',
           'https://www.googleapis.com/auth/gmail.send']
 
-class PythonGmailAPI:
+
+class MailSender:
     def __init__(self):
         pass
 
@@ -124,11 +125,14 @@ class PythonGmailAPI:
         return build('gmail', 'v1', http=http)
 
 def main():
-    sender_address = 'tes'
+    sender_address = 'tes123@gmail.com'
     to_address = input('To address: ')
     subject = input('Subject: ')
     body = input('Body: ')
-    PythonGmailAPI().gmail_send(sender_address, to_address, subject, body)
+    MailSender().gmail_send(sender_address, to_address, subject, body)
+
+def send(to,sub,body):
+    MailSender().gmail_send('tes@gmail.com',to,sub,body)
 
 if __name__ == '__main__':
     main()
