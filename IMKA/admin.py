@@ -1,8 +1,12 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+from flask import Flask
+from flask import request
+from flask import render_template
 from datetime import date, datetime
 import time
+import random
 
 cred = credentials.Certificate('kunci.json')
 firebase_admin.initialize_app(cred)
@@ -52,7 +56,6 @@ def ceklastsuhu():
         a=doc.id
     b=int(a)+1
 
-    print(a)
     t1=suhu_ref.document(a).get().get("Tanggal").date()
     t2=datetime.now().date()
 
@@ -67,31 +70,41 @@ def todaysuhu():
     suhu_ref.document(str(idx)).set({'Tanggal':datetime.now()})
     return str(idx)
 
+
 def inputsuhu(sh):
     data = {
-        'Sehu': sh,
+        'Suhu': sh,
         'Waktu': datetime.now()
     }
     suhu_ref.document(todaysuhu()).collection('1').document().set(data)
 
-# inputsuhu(31)
 
-from flask import Flask
-from flask import request
-from flask import render_template
+# docs=suhu_ref.document(todaysuhu()).collection('1').order_by('Waktu').get()
+
+"""
+for doc in docs:
+    a=doc.to_dict()
+    print(a['Waktu'].time())
+
+for i in range(10):
+    a=random.randint(20,30)
+    print(a)
+    inputsuhu(a)
+    time.sleep(2)
+"""
 
 app = Flask(__name__, template_folder='templates')
 
 
-@app.route('/')
-def main():
-    return 0
+@app.route('/<id>')
+def main(id):
+    return id
 
 
 @app.route('/masuk/<id>', methods = ['GET', 'POST', 'DELETE'])
 def masuk(id):
     if request.method == 'GET':
-        return render_template('/masuk_barang.html', id=id)
+        return render_template('masuk_barang.html', id=id)
     if request.method == 'POST':
         id = request.form['ID']
         nm = request.form['nama']
@@ -103,7 +116,7 @@ def masuk(id):
 
         print(id,nm,jml)
         daftar(id,nm,jn,pd,ket,jml,datetime.now())
-        return '<p>aaaaaa</p>'
+        return '<p>Berhasil input</p>'
 
 
 app.run(debug=True,host='0.0.0.0')
